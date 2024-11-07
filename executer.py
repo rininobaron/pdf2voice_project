@@ -8,7 +8,7 @@ import os
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
 def pdf_to_text(pdf_path):
-    # Convierte cada página del PDF en una imagen
+    # Convierte cada página del PDF en una imagen tipo Pillow
     pages = convert_from_path(pdf_path, dpi=300)
     text = ""
 
@@ -22,18 +22,15 @@ def pdf_to_text(pdf_path):
         _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
         
         # Usa OCR en la imagen procesada
-        page_text = pytesseract.image_to_string(thresh, lang='spa')  # Cambia 'spa' por el idioma necesario
+        page_text = pytesseract.image_to_string(thresh, lang='eng')  # Cambia 'spa' por el idioma necesario
         text += page_text + "\n\n"
 
         # Borra la imagen temporal
         os.remove(f"page_{page_number}.jpg")
 
-        if page_numer == 2:
-            break
-
     return text
 
 # Usa la función para convertir un PDF escaneado en texto
-pdf_path = "1866-becerro-de-las-behetricc81as.pdf"
+pdf_path = "CamScanner 18-04-2024 16.08.pdf"
 texto_extraido = pdf_to_text(pdf_path)
 print(texto_extraido)
